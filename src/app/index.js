@@ -12,7 +12,7 @@ import crypto from 'crypto';
 import connectMongo from 'connect-mongo';
 
 import dotenv from 'dotenv';
-import strategy from './passport-config.js'
+// import {strategy} from './passport-config.js'
 // Config
 const app = express();
 const config = dotenv.config();
@@ -22,21 +22,41 @@ const config = dotenv.config();
 // 	useNewUrlParser: true,
 // 	useUnifiedTopology: true
 // });
-//Passport 
+//	Passport 
 // const localStrategy = strategy;
-// passport.use(localStrategy)
-// Middleware
+import passportLocal from 'passport-local';
+// const LocalStrategy = passportLocal('LocalStrategy');
+console.dir(Object.getOwnPropertyNames(passportLocal))
+console.dir(Object.getOwnPropertyNames(passportLocal.Strategy))
+console.log("".)
+console.dir(passportLocal.Strategy)
+// passport.use(new LocalStrategy(
+// 	function(username, password, done) {
+// 	  User.findOne({ username: username }, function (err, user) {
+// 		if (err) { return done(err); }
+// 		if (!user) { return done(null, false); }
+// 		if (!user.verifyPassword(password)) { return done(null, false); }
+// 		return done(null, user);
+// 	  });
+// 	}
+//   ));
+//	Middleware
 app.use(express.json())
 app.use(express.urlencoded({
 	extended: true
 }))
-// Routing
-// app.post('/login', passport.authenticate('local', 
-// 	{failureRedirect: '/login', failureMessage: true}), (req, res) => {
-// 		console.log("Authenticated!")
-// 		res.send('got it')
-// })
-app.post('/login', (req, res) => {
+const middleware = (req, res, next)=> {
+	console.log('Stuck in the middle')
+	next()
+}
+//	Routing
+app.post('/login', passport.authenticate('local', 
+	{failureRedirect: '/login', failureMessage: true}), (req, res) => {
+		console.log("Authenticated!")
+		res.send('got it')
+})
+
+app.post('/login', middleware, (req, res) => {
 	console.log("Authenticated!")
 	console.log(req.body)
 	res.json({requestBody: req.body})
