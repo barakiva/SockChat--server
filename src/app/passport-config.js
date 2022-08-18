@@ -1,29 +1,32 @@
-// import passportLocal from 'passport-local';
-// const Strategy = passportLocal('Strategy');
-// import * as connection from './connection.js';
-// import bcrypt from 'bcryptjs';
+import passport from "passport"
+import passportLocal from 'passport-local'
+import User from '.././schemas/User.js'
 
-// export const strategy = new Strategy(
-// 	{ usernameField: 'email' }, 
-// 	function(email, password, cb) {
-// 		connection.query('SELECT * FROM User WHERE email = ? ', email, function(err, users) {
-// 			if (err) {
-// 				return cb({ message: 'Internal Server error', statusCode: 500 }, null);
-// 			} // No DB errors
-		
-// 			const user = users[0];
-// 			if (!user) {
-// 				return cb({ message: 'No user found!!', statusCode: 400 }, null);
-// 			} // Users exists
-		
-// 			const userPassword = users[0].password;
-// 			const isPasswordValid = bcrypt.compareSync(password, userPassword);
-		
-// 			if (!isPasswordValid) {
-// 				return cb({ message: 'Email or Password is incorrect', statusCode: 400 }, null);
-// 			} // Password of user that exists is valid
-// 			const currentUser = users[0];
-// 			cb(null, currentUser); // Successful athentication
-// 		});
-// });
-
+var query = new User({
+		username: "bar",
+		password: "bar"
+	}),
+	update = { expire: new Date() },
+	options = { upsert: true, new: true, setDefaultsOnInsert: true }
+User.findOneAndUpdate(query, update, options)
+// Authentication
+function verifyPassword(passsword){
+	return true
+}
+function verifyUser(username, password, done) {
+	User.findOne({username: username}, function (err, user) {
+	  if (err) { return done(err); }
+	  if (!user) { return done(null, false); }
+	  if (!verifyPassword(password)) { return done(null, false); }
+	  return done(null, user);
+	});
+}
+// Middleware
+passport.serializeUser(function(user, done) {
+done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+done(null, user);
+});
+const CredentialStrategy =  new passportLocal.Strategy(verifyUser)
+export default CredentialStrategy

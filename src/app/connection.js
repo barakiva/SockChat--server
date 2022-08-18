@@ -1,1 +1,0 @@
-export function query(sqlQuery, id) {}
