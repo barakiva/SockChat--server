@@ -4,13 +4,15 @@ import http from 'http';
 import {Server} from 'socket.io'
 import passport from 'passport';
 import dotenv from 'dotenv';
-
+import mongoose from 'mongoose'
 import {register, login} from './database/UserDAO.js'
 // Config
 dotenv.config();
 const app = express();
 // MongoDB
-
+mongoose
+	.connect(process.env.DB_STRING)
+	.then((res)=> console.log('Connection succesful!'))
 //	Passport 
 
 //	Middleware

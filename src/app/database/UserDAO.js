@@ -18,11 +18,19 @@ export function login(req, res, next){
 	})
 }
 export function register(req, res, next){
-	console.log(`Register method shows ${req.body.email}`)
+	const doc = new User({
+		email: req.body.email,
+		password: req.body.password,
+		name: 'bob',
+		googleId: "goog"
+	})
 	User.findOne({email: req.body.email}, (err, user)=> {
-		if (err) { return err }
-		if (!user) { return "no user found" }
-		if (!user.isUserUnique(user)) { return "Wrong password!" }
+		if (err) { next(err) }
+		if (user) { next("User already exists") }
+		// if (!user.isUserUnique(user)) { return "Wrong password!" }
+		if (!user) { 
+			doc.save()
+		}
 		next(user)
 	})
 }
