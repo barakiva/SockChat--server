@@ -18,19 +18,24 @@ export function login(req, res, next){
 	})
 }
 export function register(req, res, next){
-	const doc = new User({
-		email: req.body.email,
-		password: req.body.password,
-		name: 'bob',
-		googleId: "goog"
-	})
-	User.findOne({email: req.body.email}, (err, user)=> {
-		if (err) { next(err) }
-		if (user) { next("User already exists") }
-		// if (!user.isUserUnique(user)) { return "Wrong password!" }
-		if (!user) { 
+	if(req.body.user) {
+		const doc = new User({
+			email: req.body.email,
+			password: req.body.password,
+			name: 'bob',
+			googleId: req.body.googleId
+		})
+		User.findOne({email: doc.email}, (err, user)=> {
+			if (err) {
+				next(new Error("Couldn't find user:" + err))
+			}
+			if (user) {
+				next(new Error("Can't register user because email address is already in use."))
+			}
 			doc.save()
-		}
-		next(user)
-	})
+			res.locals.user = doc
+			next()
+		})
+	}
+
 }

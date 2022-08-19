@@ -12,7 +12,7 @@ const app = express();
 // MongoDB
 mongoose
 	.connect(process.env.DB_STRING)
-	.then((res)=> console.log('Connection succesful!'))
+	.then((res)=> console.log('Connection successful!'))
 //	Passport 
 
 //	Middleware
@@ -29,15 +29,13 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.post('/login', (req, res) => {
+	// TODO isAuthenticated
 	console.log("Authenticated!")
-	res.json({requestBody: req.body})
+	res.json({requestBody: res.locals.user})
 })
-// function register(req, res, next) {
-// 	console.log(req)
-// 	next()
-// }
+
 app.post('/register',register, (req, res)=> {
-	res.json({requestBody: user})
+	res.json(res.locals.user)
 })
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
