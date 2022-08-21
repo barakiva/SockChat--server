@@ -5,11 +5,13 @@ import dotenv from 'dotenv';
 import './database/mongo.js'
 import authRoutes from  './routes/auth-routes.js'
 import * as ChatService from './services/chat-service.js'
+import http from 'http';
+import {Server} from 'socket.io'
 // Config
 dotenv.config();
 const app = express();
-const port = process.env.PORT;
-//	Middleware
+//Middleware
+//	Express
 app.use(express.json())
 app.use(express.urlencoded({
 	extended: true
@@ -19,10 +21,11 @@ app.use(session({
 	saveUninitialized: true,
 	secret: process.env.SECRET 
 }))
-//	Auth routing
-app.use('/', authRoutes)
-//	Passport 
+//	Passport
 app.use(passport.initialize())
 app.use(passport.session())
-//	Socket.IO
+//Routing
+//	Auth
+app.use('/', authRoutes)
+//Socket.IO
 ChatService.init(app)

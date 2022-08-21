@@ -19,22 +19,23 @@ export function login(req, res, next){
 export function register(req, res, next){
 	if(req.body.user) {
 		const doc = new User({
-			email: req.body.email,
-			password: req.body.password,
-			name: 'bob',
-			googleId: req.body.googleId
+			email: req.body.user.email,
+			password: req.body.user.password,
+			name: req.body.user.name,
+			googleId: req.body.user.googleId
 		})
-		User.findOne({email: doc.email}, (err, user)=> {
-			if (err) {
-				next(new Error("Couldn't find user:" + err))
-			}
-			if (user) {
-				next(new Error("Can't register user because email address is already in use."))
-			}
-			doc.save()
-			res.locals.user = doc
-			next()
-		})
+		// User.findOne({email: doc.email}, (err, user)=> {
+		// 	if (err) {
+		// 		next(new Error("Couldn't find user:" + err))
+		// 	}
+		// 	if (user) {
+		// 		next(new Error("Can't register user because email address is already in use."))
+		// 	}
+		// 	doc.save()
+		// 	res.json(doc)
+		// })
+		User.findOne({email: doc.email}).exec()
+			.then((user)=> !user ? doc.save() : next(new Error("User already exists")))
+			.err((err)=> next(new Error("Couldn't find user:" + err)))
 	}
-
 }
