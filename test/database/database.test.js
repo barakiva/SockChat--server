@@ -1,7 +1,7 @@
-import User from '../src/app/schemas/User.js'
+import User from '../../src/app/schemas/User.js'
 import chai from 'chai';
 import mongoose from 'mongoose';
-import {setupDatabase , cleanDatabase} from "./database/helpers.js";
+import {setupDatabase , cleanDatabase} from "./helpers.js";
 
 const assert = chai.assert;
 

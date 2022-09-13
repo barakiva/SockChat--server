@@ -1,5 +1,6 @@
 watch: true
 parallel: true
+recursive: true
 color: true
 watch-files:
   - 'lib/**/*.js'
