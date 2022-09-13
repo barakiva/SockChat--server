@@ -1,16 +1,10 @@
-import User from '../../src/app/schemas/User.js'
+import User from './../../src/app/schemas/User.js'
 import chai from 'chai';
 import mongoose from 'mongoose';
-import {setupDatabase , cleanDatabase} from "./helpers.js";
 
 const assert = chai.assert;
 
-describe('Database setup', function () {
-
-})
 describe('Database sanity', ()=> {
-    before('Database setup', setupDatabase)
-    beforeEach('Clean database', cleanDatabase);
     it('Database connected', function () {
         assert.equal(mongoose.connection.readyState, 1)
     })

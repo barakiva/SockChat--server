@@ -6,13 +6,14 @@ function verifyPassword(user) {
 function isUserUnique(user) {
 
 }
-export function login(req, res, next){
-	User.findOne({email: req.body.user.email}, (err, user)=> {
-		if (err) { return err }
-		if (!user) { return "no user found" }
-		if (!user.verifyPassword(user)) { return "Wrong password!" }
-		return "Successful auth!";
-	})
+export function myAuth(err, user) {
+	if (err) { return err }
+	if (!user) { return "no user found" }
+	if (!user.verifyPassword(user)) { return "Wrong password!" }
+	return 1;
+}
+export function authenticate(user){
+	return User.findOne({email: user.email}, myAuth)
 }
 // export function register(req, res, next){
 // 	if(req.body.user) {

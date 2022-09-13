@@ -1,4 +1,11 @@
-import mongoose from 'mongoose'
+// describe('User Registration', ()=> {
+// 	it('Registration returns User',  ()=> {
+// 		user.save()
+// 			.then(()=> {
+// 				assert(!user.isNew)
+// 			})
+// 	})
+// });import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
 // MongoDB

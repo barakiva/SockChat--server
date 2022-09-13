@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config()
 
-export function setupDatabase() {
+before(function () {
     mongoose.Promise = global.Promise;
     const MONGODB_URI = process.env.DB_STRING;
     mongoose.connect(MONGODB_URI);
@@ -12,8 +12,9 @@ export function setupDatabase() {
         .on('error', (error) => {
             console.warn('Error : ', error);
         });
-}
-export function cleanDatabase(done) {
+})
+beforeEach(cleanDatabase)
+function cleanDatabase(done) {
     mongoose.connection.collections.users.drop(()=>  {
         done();
     });

@@ -1,5 +1,5 @@
 import express from 'express'
-import {register, login} from './../database/UserDAO.js'
+import {register} from './../database/UserDAO.js'
 
 const authRoutes = express.Router()
 
