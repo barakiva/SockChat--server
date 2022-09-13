@@ -1,0 +1,8 @@
+watch: true
+parallel: true
+color: true
+watch-files:
+  - 'lib/**/*.js'
+  - 'test/**/*.js'
+watch-ignore:
+  - 'lib/vendor'
