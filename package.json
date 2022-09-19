@@ -5,8 +5,11 @@
   "main": "src/app/index.js",
   "scripts": {
     "test": "mocha",
-    "start": "node-dev src/app/index.js",
+    "start": "node-dev --experimental-specifier-resolution=node src/app/index.js",
     "e2e": "cypress open"
+  },
+  "imports": {
+    "#ok/*.js": "./src/app/*.js"
   },
   "keywords": [],
   "author": "",

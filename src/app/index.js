@@ -2,11 +2,22 @@ import express from 'express';
 import session from 'express-session'
 import passport from 'passport';
 import dotenv from 'dotenv';
-import './database/mongo.js'
+import '#ok/database/mongo.js'
 import authRoutes from  './routes/auth-routes.js'
 import * as ChatService from './services/chat-service.js'
-import http from 'http';
-import {Server} from 'socket.io'
+
+import mongoose from "mongoose";
+import User from '#ok/schemas/User.js'
+
+
+
+mongoose
+	.connect(process.env.DB_STRING)
+	.then((res)=> console.log('MongoDB connection successful!'))
+	.catch((err)=> console.log(err))
+
+User.findOne({name: "user"})
+	.then((res)=> console.log(res))
 // Config
 dotenv.config();
 const app = express();

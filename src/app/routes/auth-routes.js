@@ -1,5 +1,4 @@
 import express from 'express'
-import {register} from './../database/UserDAO.js'
 
 const authRoutes = express.Router()
 
@@ -14,7 +13,7 @@ authRoutes.post('/login', (req, res) => {
 	res.json({requestBody: res.locals.user})
 })
 
-authRoutes.post('/register',register, (req, res)=> {
+authRoutes.post('/register', (req, res)=> {
 	console.log(req.body)
 	res.json(res.locals.user)
 })
